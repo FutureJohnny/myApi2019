@@ -8,10 +8,42 @@ const mongoose = require('mongoose');
 const passport = require('passport');
 const config = require('./config/database');
 
+try {
+    mongoose.set('useNewUrlParser', true);
+    mongoose.set('useCreateIndex', true);
+    mongoose.connect(config.database);
+}
+catch(e) {
+    console.log(e.message);
+}
+
+
+
+//add route for our api
+const api = require('./routes/api');
+
 const index = require('./routes/index');
 const users = require('./routes/users');
 
 const app = express();
+
+//add Cors support before any routing
+app.use(function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
+    res.header("Access-Control-Expose-Headers", "Authorization"); //have to expose so that browser have
+    res.header("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE,PATCH,OPTIONS");
+    next();
+});
+
+app.use(passport.initialize());
+
+
+
+
+app.get('/', function(req, res) {
+    res.send('page under construction.');
+});
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -25,7 +57,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', index);
+//app.use('/', index);
+app.use('/api', api);
 app.use('/users', users);
 
 // catch 404 and forward to error handler
