@@ -27,7 +27,7 @@ UserSchema.pre('save', function(next) {
     var user = this;
     var SALT_FACTOR = 5;
 
-    if (!user.isModified('pssword')) {
+    if (!user.isModified('password')) {
         return next();
     }
 
