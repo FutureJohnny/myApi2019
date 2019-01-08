@@ -1,4 +1,4 @@
-const JwtStrategy = require('passport-jwt').Strategy  //set up jwt token strategy
+const JwtStrategy = require('passport-jwt').Strategy;  //set up jwt token strategy
 const ExtractJwt = require('passport-jwt').ExtractJwt; //set up extract JWT
 
 //load up the user model
