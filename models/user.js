@@ -57,7 +57,7 @@ UserSchema.methods.comparePassword = function(passwordAttempt, cb) {
         if(err) {
             return cb(err);
         } else {
-            cd(null, isMatch);
+            cb(null, isMatch);
         }
     });
 };
