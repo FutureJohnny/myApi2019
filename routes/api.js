@@ -7,3 +7,27 @@ const jwt = require('jsonwebtoken');
 const router = express.Router();
 const User = require('../models/user');
 const Film = require('../models/film');
+
+//Create router for signup or register the new user.
+router.post('/signup', function(req, res) {
+
+    if (!req.body.email || req.body.password) {
+        res.json({success: false, msg: 'Please pass email and password'});
+    } else {
+        var newUser = new user({
+            email: req.body.email,
+            password: req.body.password
+        });
+
+        //save the user
+        newUser.save(function(err) {
+            if (err) {
+                console.log(err);
+                return res.json({success: false, msg: 'email already exists.'});
+            }
+            res.json({success: true, msg: 'Successfully created new user'});
+        });
+    }
+});
+
+module.exports = router;
