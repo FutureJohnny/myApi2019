@@ -99,7 +99,7 @@ getToken = function (headers) {
 
 //Get all films
 router.get('/film', passport.authenticate('jwt', {session: false}), function(res, res) {
-    var token - getToken(req.headers);
+    var token = getToken(req.headers);
     if (token) {
         Film.find(function (err, films) {
             if (err) return next(err);
