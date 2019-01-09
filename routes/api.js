@@ -98,12 +98,12 @@ getToken = function (headers) {
 };
 
 //Get all films
-router.get('/film', passport.authenticate('jwt', {session: false}), function(res, res) {
+router.get('/film', passport.authenticate('jwt', {session: false}), function(req, res) {
     var token = getToken(req.headers);
     if (token) {
         Film.find(function (err, films) {
             if (err) return next(err);
-            res,json(films);
+            res.json(films);
         });
     } else {
         return res.status(403).send({success: false, msg: 'unathorized.'});
