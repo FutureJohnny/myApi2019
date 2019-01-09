@@ -97,5 +97,64 @@ getToken = function (headers) {
     }
 };
 
+//Get all films
+router.get('/film', passport.authenticate('jwt', {session: false}), function(res, res) {
+    var token - getToken(req.headers);
+    if (token) {
+        Film.find(function (err, films) {
+            if (err) return next(err);
+            res,json(films);
+        });
+    } else {
+        return res.status(403).send({success: false, msg: 'unathorized.'});
+    }
+});
+
+//Get single film by ID
+router.get('/film:id', passport.authenticate('jwt', {session: false}), function(req, res, next) {
+    var token = getToken(req.headers);
+    if (token) {
+        console.log('the id is: ');
+        console.log(req.params.id);
+        Film.findById(new mongoose.Types.ObjectId(req.params.id), function (err, post) {
+            if (err) return next (err);
+            res.json(post);
+
+        });
+    } else {
+        return res.status(403).send({success: false, msg: 'Unauthorized.'});
+    }
+});
+
+//Update film review
+router.get('/film:id', passport.authenticate('jwt', {session: false}), function(req, res, next) {
+    var token = getToken(req.headers);
+    if (token) {
+        Film.findOneAndUpdate({'_id':req.params.id}, req.body, function (err, post) {
+            if (err) return next(err);
+            res.json(post);
+
+
+        });
+    } else {
+        return res.status(403).send({success: false, msg: 'Unauthorized.'});
+    }
+});
+
+//Delete film
+router.delete('/film:id', passport.authenticate('jwt', {session: false}), function(req, res, next) {
+    var token = getToken(req.headers);
+    if (token) {
+        Film.findOneAndRemove({'_id':req.params.id}, req.body, function (err, post) {
+            if (err) return next(err);
+            res.json(post);
+
+
+        });
+    } else {
+        return res.status(403).send({success: false, msg: 'Unauthorized.'});
+    }
+});
+
 
 module.exports = router;
